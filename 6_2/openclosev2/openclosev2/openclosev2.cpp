@@ -133,6 +133,7 @@ int main()
 	printReversed_r(stack);
 	cout << searchForPairs(stack) << endl;
 	deleteStack(stack);
-	cout << endl << "launching test: " << test1() << endl;
+	cout << endl;
+	cout << "launching test: " << test1() << endl;
 	return 0;
 }
