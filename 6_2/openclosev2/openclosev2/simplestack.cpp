@@ -68,7 +68,7 @@ void insert(StackElement *position, ElementType value)
 
 ElementType pop(Stack *stack)
 {
-	if (!stack->head)
+	if (stack->head)
 	{
 		auto oldElement = stack->head;
 		auto oldValue = oldElement->value;
