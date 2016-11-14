@@ -54,7 +54,12 @@ void deleteStack(Stack *&stack)
 	delete stack;
 }
 
-void pushback(Stack *stack, ElementType value)
+bool isEmpty(Stack *stack)
+{
+	return !stack->head;
+}
+
+void push(Stack *stack, ElementType value)
 {
 	auto newElement = new StackElement{ value, stack->head };
 	stack->head = newElement;
@@ -109,14 +114,14 @@ void printReversed(Stack *stack)
 	auto iterator = stack->head;
 	while (iterator)
 	{
-		pushback(temporaryStack, iterator->value);
+		push(temporaryStack, iterator->value);
 		iterator = iterator->next;
 	}
 	print(temporaryStack);
 	deleteStack(temporaryStack);
 }
 
-void print_r(Stack *stack)
+void printRow(Stack *stack)
 {
 	auto iterator = stack->head;
 	while (iterator)
@@ -127,16 +132,16 @@ void print_r(Stack *stack)
 	cout << endl << "===" << endl;
 }
 
-void printReversed_r(Stack *stack)
+void printReversedRow(Stack *stack)
 {
 	auto temporaryStack = createStack();
 	auto iterator = stack->head;
 	while (iterator)
 	{
-		pushback(temporaryStack, iterator->value);
+		push(temporaryStack, iterator->value);
 		iterator = iterator->next;
 	}
-	print_r(temporaryStack);
+	printRow(temporaryStack);
 	deleteStack(temporaryStack);
 }
 

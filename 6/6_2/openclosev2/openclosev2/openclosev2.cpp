@@ -9,45 +9,34 @@ bool checkPairs(string str)
 	auto stack = createStack();
 	for (int i = 0; i < str.size(); ++i)
 	{
-		if (str[i] == '(')
+		if (str[i] == '(' || str[i] == '{' || str[i] == '[')
 		{
-			pushback(stack, '(');
-		}
-		if (str[i] == '{')
-		{
-			pushback(stack, '{');
-		}
-		if (str[i] == '[')
-		{
-			pushback(stack, '[');
+			push(stack, str[i]);
 		}
 		if (str[i] == ')')
 		{
-			if (getValue(getHead(stack)) != '(')
+			if (pop(stack) != '(')
 			{
 				return false;
 
 			}
-			deleteFromHead(stack);
 		}
 		if (str[i] == '}')
 		{
-			if (getValue(getHead(stack)) != '{')
+			if (pop(stack) != '{')
 			{
 				return false;
 			}
-			deleteFromHead(stack);
 		}
 		if (str[i] == ']')
 		{
-			if (getValue(getHead(stack)) != '[')
+			if (pop(stack) != '[')
 			{
 				return false;
 			}
-			deleteFromHead(stack);
 		}
 	}
-	return !getHead(stack);
+	return isEmpty(stack);
 }
 
 bool test1()
