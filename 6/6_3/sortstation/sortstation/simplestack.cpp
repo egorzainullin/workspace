@@ -76,14 +76,14 @@ ElementType pop(Stack *stack)
 		delete oldElement;
 		return oldValue;
 	}
-	return ' ';
+	return -1;
 }
 
 ElementType remove(StackElement *position)
 {
 	if ((!position) || (!position->next))
 	{
-		return ' ';
+		return -1;
 	}
 	auto oldElement = position->next;
 	auto oldValue = oldElement->value;

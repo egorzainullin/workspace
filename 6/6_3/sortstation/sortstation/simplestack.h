@@ -1,6 +1,6 @@
 #pragma once
 
-typedef char ElementType;
+typedef int ElementType;
 
 //Structures:
 // structure of pointer
