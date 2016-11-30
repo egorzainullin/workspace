@@ -28,17 +28,17 @@ Stack* InfixToPostfix(string str)
 	{
 		if (str[i] >= '0' && str[i] <= '9')
 		{
-			pushback(stackOut, str[i]);
+			push(stackOut, str[i]);
 		}
 		else if (str[i] == '(')
 		{
-			pushback(opStack, '(');
+			push(opStack, '(');
 		}
 		else if (str[i] == ')')
 		{
 			while (getValue(getHead(opStack)) != '(')
 			{
-				pushback(stackOut, pop(opStack));
+				push(stackOut, pop(opStack));
 			}
 			deleteFromHead(opStack);
 		}
@@ -46,14 +46,14 @@ Stack* InfixToPostfix(string str)
 		{
 			while (getHead(opStack) && operatorPriority(str[i]) <= operatorPriority(getValue(getHead(opStack))))
 			{
-				pushback(stackOut, pop(opStack));
+				push(stackOut, pop(opStack));
 			}
-			pushback(opStack, str[i]);
+			push(opStack, str[i]);
 		}
 	}
 	while (getHead(opStack))
 	{
-		pushback(stackOut, pop(opStack));
+		push(stackOut, pop(opStack));
 	}
 	deleteStack(opStack);
 	return stackOut;
@@ -64,7 +64,7 @@ int main()
 	string str = "";
 	cin >> str;
 	auto stack = InfixToPostfix(str);
-	printReversed_r(stack);
+	printReversedRow(stack);
 	return 0;
 }
 
