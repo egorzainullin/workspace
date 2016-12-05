@@ -42,14 +42,14 @@ int solvePostfixForm(string str)
 	{
 		if (str[i] >= '0' && str[i] <= '9')
 		{
-			pushback(stack, charToInt(str[i]));
+			push(stack, charToInt(str[i]));
 		}
 		else
 		{
 			int b = pop(stack);
 			int a = pop(stack);
 			int newValue = countThis(a, b, str[i]);
-			pushback(stack, newValue);
+			push(stack, newValue);
 		}
 	}
 	return getHead(stack) ? pop(stack) : 0;
