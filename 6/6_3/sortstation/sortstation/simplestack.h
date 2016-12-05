@@ -55,3 +55,5 @@ void printRow(Stack *stack);
 //the same that printReversed but in row
 void printReversedRow(Stack *stack);
 
+//reverse stack 
+void reverseStack(Stack *&stack);

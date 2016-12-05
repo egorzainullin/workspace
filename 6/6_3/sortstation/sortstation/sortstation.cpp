@@ -23,7 +23,7 @@ Stack* InfixToPostfix(string str)
 {
 	auto opStack = createStack();
 	auto stackOut = createStack();
-	int length = str.size();
+	int length = static_cast<int>(str.size());
 	for (int i = 0; i < length; ++i)
 	{
 		if (str[i] >= '0' && str[i] <= '9')
@@ -59,12 +59,32 @@ Stack* InfixToPostfix(string str)
 	return stackOut;
 }
 
+string InfixToPostfixString(string str)
+{
+	auto stack = InfixToPostfix(str);
+	reverseStack(stack);
+	string temporaryString = "";
+	while (!isEmpty(stack))
+	{
+		temporaryString = temporaryString + pop(stack);
+	}
+	return temporaryString;
+}
+
+bool test1()
+{
+	string str = "(1+1)*2";
+	str = InfixToPostfixString(str);
+	return str == "11+2*";
+}
+
 int main()
 {
+	cout << test1() << endl;
 	string str = "";
 	cin >> str;
-	auto stack = InfixToPostfix(str);
-	printReversedRow(stack);
+	str = InfixToPostfixString(str);
+	cout << str << endl;
 	return 0;
 }
 

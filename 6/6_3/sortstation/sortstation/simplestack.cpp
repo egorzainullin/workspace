@@ -73,7 +73,7 @@ void insert(StackElement *position, ElementType value)
 
 ElementType pop(Stack *stack)
 {
-	if (stack->head)
+	if (stack && stack->head)
 	{
 		auto oldElement = stack->head;
 		auto oldValue = oldElement->value;
@@ -143,4 +143,14 @@ void printReversedRow(Stack *stack)
 	}
 	printRow(temporaryStack);
 	deleteStack(temporaryStack);
+}
+
+void reverseStack(Stack *&stack)
+{
+	auto temporaryStack = createStack();
+	while (!isEmpty(stack))
+	{
+		push(temporaryStack, pop(stack));
+	}
+	stack = temporaryStack;
 }
