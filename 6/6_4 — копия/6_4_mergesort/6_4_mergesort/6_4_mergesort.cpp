@@ -165,7 +165,6 @@ ListElement *findHalf(ListElement *left, int size)
 	{
 		return nullptr;
 	}
-	auto  iterator = left;
 	int i = 1;
 	while (i != (size + 1) / 2)
 	{
