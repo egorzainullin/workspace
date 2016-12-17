@@ -3,9 +3,34 @@
 
 #include <iostream>
 #include <ctime>
-#include "mostfrequent.h"
+#include "heapsort.h"
 
 using namespace std;
+
+int searchForFrequent(int* arr, int n)
+{
+	heapsort(arr, n);
+	int result = 0;
+	int maxCount = 0;
+	int count = 0;
+	int i = 0;
+	while (i < n)
+	{
+		int number = arr[i];
+		count = 0;
+		while ((arr[i] == number) && (i < n))
+		{
+			++count;
+			++i;
+		}
+		if (count > maxCount)
+		{
+			maxCount = count;
+			result = number;
+		}
+	}
+	return result;
+}
 
 void testFrequent()
 {
