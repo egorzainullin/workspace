@@ -26,16 +26,9 @@ void deleteTree(TreeElement *&root)
 	{
 		return;
 	}
-	if (root && !root->leftChild && !root->rightChild)
-	{
-		delete root;
-		root = nullptr;
-	}
-	else
-	{
-		deleteTree(root->leftChild);
-		deleteTree(root->rightChild);
-	}
+	delete(root->leftChild);
+	delete(root->rightChild);
+	delete root;
 }
 
 void deleteTree(Tree *&tree)
