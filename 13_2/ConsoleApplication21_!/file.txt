@@ -1,2 +1,7 @@
-/* abcd*/ fgfdg
-/* abndb */
+int main()
+{
+/*a + b /c */
+//comment another type
+	return 0;
+	/*body */
+}

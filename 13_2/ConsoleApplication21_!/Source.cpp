@@ -49,6 +49,7 @@ void writecomments()
 	ifstream file("file.txt");
 	int state = 0;
 	string str = "";
+	ofstream testfile("testfile.txt");
 	while (!file.eof())
 	{
 		char c = 'a';
@@ -70,13 +71,27 @@ void writecomments()
 		if (state == 4)
 		{
 			cout << str << endl;
+			testfile << str << endl;
 			state = 0;
 		}
 	}
+	testfile.close();
+}
+
+bool test1()
+{
+	ifstream testfile("testfile.txt");
+	string str1 = "";
+	string str2 = "";
+	getline(testfile, str1);
+	getline(testfile, str2);
+	return str1 == "/*a + b /c */" && str2 == "/*body */";
+	testfile.close();
 }
 
 int main()
 {
 	writecomments();
+	cout << test1() << endl;
 	return 0;
 }
