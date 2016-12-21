@@ -76,6 +76,11 @@ void writecomments()
 		}
 	}
 	testfile.close();
+	for (auto i = 0; i < m; ++i)
+	{
+		delete[] arr[i];
+	}
+	delete[] symbols;
 }
 
 bool test1()
