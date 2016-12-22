@@ -63,6 +63,10 @@ void writecomments()
 		if (state != 0)
 		{
 			str = str + c;
+            if (state == 1)
+            {
+                str = "/";
+            }
 		}
 		else
 		{
