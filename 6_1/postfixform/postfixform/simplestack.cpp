@@ -19,20 +19,9 @@ Stack* createStack()
 	return new Stack{ nullptr };
 }
 
-StackElement* next(StackElement *element)
+ElementType getValueFromHead(Stack *stack)
 {
-
-	return (element) ? element->next : nullptr;
-}
-
-StackElement* getHead(Stack *stack)
-{
-	return stack->head;
-}
-
-ElementType getValue(StackElement *element)
-{
-	return element->value;
+	return stack->head->value;
 }
 
 void deleteFromHead(Stack *stack)
@@ -65,12 +54,6 @@ void push(Stack *stack, ElementType value)
 	stack->head = newElement;
 }
 
-void insert(StackElement *position, ElementType value)
-{
-	auto newElement = new StackElement{ value, position };
-	position->next = newElement;
-}
-
 ElementType pop(Stack *stack)
 {
 	if (stack->head)
@@ -82,19 +65,6 @@ ElementType pop(Stack *stack)
 		return oldValue;
 	}
 	return ' ';
-}
-
-ElementType remove(StackElement *position)
-{
-	if ((!position) || (!position->next))
-	{
-		return ' ';
-	}
-	auto oldElement = position->next;
-	auto oldValue = oldElement->value;
-	position->next = position->next->next;
-	delete oldElement;
-	return oldValue;
 }
 
 void print(Stack *stack)
@@ -144,3 +114,4 @@ void printReversedRow(Stack *stack)
 	printRow(temporaryStack);
 	deleteStack(temporaryStack);
 }
+

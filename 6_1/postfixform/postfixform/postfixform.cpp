@@ -38,27 +38,45 @@ int solvePostfixForm(string str)
 {
 	auto stack = createStack();
 	int length = str.size();
-	for (int i = 0; i < length; ++i)
+	int i = 0;
+	while (i < length)
 	{
-		if (str[i] >= '0' && str[i] <= '9')
+		bool isNumber = false;
+		int operand = 0;
+		while (i < length && str[i] >= '0' && str[i] <= '9')
 		{
-			push(stack, charToInt(str[i]));
+			isNumber = true;
+			int a = charToInt(str[i]);
+			operand = operand * 10 + a;
+			++i;
 		}
-		else
+		if (isNumber)
 		{
-			int b = pop(stack);
-			int a = pop(stack);
-			int newValue = countThis(a, b, str[i]);
-			push(stack, newValue);
+			push(stack, operand);
+			continue;
 		}
+		if (i < length && str[i] == ' ')
+		{
+			++i;
+			continue;
+		}
+		int b = pop(stack);
+		int a = pop(stack);
+		int newValue = countThis(a, b, str[i]);
+		push(stack, newValue);
+		++i;
 	}
-	return getHead(stack) ? pop(stack) : 0;
-	deleteStack(stack);
+	int answer = 0;
+	if (!isEmpty(stack))
+	{
+		answer = pop(stack);
+	}
+	return answer;
 }
 
 bool test1()
 {
-	string str = "96-21+*";
+	string str = "9 6 - 2 1 + *";
 	return solvePostfixForm(str) == 9;
 }
 
@@ -66,7 +84,7 @@ int main()
 {
 	string str = "";
 	cout << "Type expression in postfix form" << endl;
-	cin >> str;
+	getline(cin, str);
 	cout << solvePostfixForm(str) << endl;
 	cout << "test accepted: " << test1() << endl;
 	return 0;

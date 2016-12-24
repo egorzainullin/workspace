@@ -1,10 +1,9 @@
 #pragma once
 
-typedef char ElementType;
+typedef int ElementType;
 
 //Structures:
-// structure of pointer
-struct StackElement;
+
 // stack
 struct Stack;
 
@@ -19,29 +18,17 @@ void deleteStack(Stack *&stack);
 //check for having elements
 bool isEmpty(Stack *stack);
 
-// get head of stack
-StackElement* getHead(Stack *stack);
+//gets value from head
+ElementType getValueFromHead(Stack *stack);
 
-//get value by pointer
-ElementType getValue(StackElement *element);
-
-//get next element of stack
-StackElement* next(StackElement *element);
+//delete value from head and return
+ElementType pop(Stack *stack);
 
 //delete from head
 void deleteFromHead(Stack *stack);
 
 //add element to head
 void push(Stack *stack, ElementType value);
-
-//insert value
-void insert(StackElement *position, ElementType value);
-
-//delete from head and return value
-ElementType pop(Stack *stack);
-
-// remove from stack
-ElementType remove(StackElement *position);
 
 // print each element on his own line
 void print(Stack *stack);
@@ -54,3 +41,5 @@ void printRow(Stack *stack);
 
 //the same that printReversed but in row
 void printReversedRow(Stack *stack);
+
+
