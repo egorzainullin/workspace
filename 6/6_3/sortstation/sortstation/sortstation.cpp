@@ -36,7 +36,7 @@ Stack* InfixToPostfix(string str)
 		}
 		else if (str[i] == ')')
 		{
-			while (getValue(getHead(opStack)) != '(')
+			while (getValueFromHead(opStack) != '(')
 			{
 				push(stackOut, pop(opStack));
 			}
@@ -44,14 +44,14 @@ Stack* InfixToPostfix(string str)
 		}
 		else 
 		{
-			while (getHead(opStack) && operatorPriority(str[i]) <= operatorPriority(getValue(getHead(opStack))))
+			while (!isEmpty(opStack) && operatorPriority(str[i]) <= operatorPriority(getValueFromHead(opStack)))
 			{
 				push(stackOut, pop(opStack));
 			}
 			push(opStack, str[i]);
 		}
 	}
-	while (getHead(opStack))
+	while (!isEmpty(opStack))
 	{
 		push(stackOut, pop(opStack));
 	}
@@ -59,7 +59,7 @@ Stack* InfixToPostfix(string str)
 	return stackOut;
 }
 
-string InfixToPostfixString(string str)
+string infixToPostfixString(string str)
 {
 	auto stack = InfixToPostfix(str);
 	reverseStack(stack);
@@ -74,7 +74,7 @@ string InfixToPostfixString(string str)
 bool test1()
 {
 	string str = "(1+1)*2";
-	str = InfixToPostfixString(str);
+	str = infixToPostfixString(str);
 	return str == "11+2*";
 }
 
@@ -83,7 +83,7 @@ int main()
 	cout << test1() << endl;
 	string str = "";
 	cin >> str;
-	str = InfixToPostfixString(str);
+	str = infixToPostfixString(str);
 	cout << str << endl;
 	return 0;
 }

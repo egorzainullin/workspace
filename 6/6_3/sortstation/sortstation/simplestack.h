@@ -3,8 +3,7 @@
 typedef char ElementType;
 
 //Structures:
-// structure of pointer
-struct StackElement;
+
 // stack
 struct Stack;
 
@@ -42,5 +41,8 @@ void printRow(Stack *stack);
 
 //the same that printReversed but in row
 void printReversedRow(Stack *stack);
+
+//reverses stack
+void reverseStack(Stack *&stack);
 
 

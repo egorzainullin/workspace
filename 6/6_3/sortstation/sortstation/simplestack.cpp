@@ -19,17 +19,6 @@ Stack* createStack()
 	return new Stack{ nullptr };
 }
 
-/*StackElement* getHead(Stack *stack)
-{
-	return stack->head;
-}
-
-ElementType getValue(StackElement *element)
-{
-	return element->value;
-}
-*/
-
 ElementType getValueFromHead(Stack *stack)
 {
 	return stack->head->value;
@@ -124,5 +113,23 @@ void printReversedRow(Stack *stack)
 	}
 	printRow(temporaryStack);
 	deleteStack(temporaryStack);
+}
+
+void reverseStack(Stack *&stack)
+
+{
+
+	auto temporaryStack = createStack();
+
+	while (!isEmpty(stack))
+
+	{
+
+		push(temporaryStack, pop(stack));
+
+	}
+
+	stack = temporaryStack;
+
 }
 
