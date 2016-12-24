@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <fstream>
 
 using namespace std;
 
@@ -14,7 +15,7 @@ struct TreeElement
 
 int toInt(string str)
 {
-    int length = str.size();
+    int length = static_cast<int>(str.size());
     int sum = 0;
     for (int i = 0; i < length; ++i)
     {
@@ -28,8 +29,8 @@ TreeElement* createTree(string str)
     int length = str.size();
     if (str[0] != '(')
     {
-        return new TreeElement{ str, nullptr, nullptr }; // (* (+ 1 1) 2).
-    }															   //i
+        return new TreeElement{ str, nullptr, nullptr }; 
+    }															   
     string op = "";
     op = op + str[1];
     string str1 = "";
@@ -76,7 +77,7 @@ TreeElement* createTree(string str)
 
 int calculate(TreeElement *root)
 {
-    if (root->value == "+")
+	if (root->value == "+")
     {
         return calculate(root->leftChild) + calculate(root->rightChild);
     }
@@ -92,7 +93,7 @@ int calculate(TreeElement *root)
     {
         return calculate(root->leftChild) / calculate(root->rightChild);
     }
-    else return toInt(root->value);
+    return toInt(root->value);
 }
 
 void deleteTree(TreeElement *&root)
@@ -130,9 +131,24 @@ void print(TreeElement *tree)
     cout << endl;
 }
 
+TreeElement *createTreeFromFile()
+{
+	ifstream file("file.txt");
+	if (!file.is_open())
+	{
+		cout << "error" << endl;
+		return nullptr;
+	}
+	string str = "";
+	getline(file, str);
+	file.close();
+	auto tree = createTree(str);
+	return tree;
+}
+
 bool test1()
 {
-    auto tree = createTree("(* (+ 1 1) 2)");
+    auto tree = createTreeFromFile();
     print(tree);
     cout << endl;
     int b = calculate(tree);
