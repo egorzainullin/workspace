@@ -84,6 +84,7 @@ void writecomments()
 	{
 		delete[] arr[i];
 	}
+	delete[] arr;
 	delete[] symbols;
 }
 
