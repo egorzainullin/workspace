@@ -9,7 +9,7 @@ struct TreeElement
 	TreeElement *leftChild;
 	TreeElement *rightChild;
 	TreeElement *parent;
-	int key;
+	string key;
 	string value;
 };
 
@@ -124,7 +124,7 @@ void splay(TreeElement *node)
 	}
 }
 
-TreeElement* findNode(TreeElement *root, int key)
+TreeElement* findNode(TreeElement *root, const string key)
 {
 	if (!root)
 	{
@@ -141,7 +141,7 @@ TreeElement* findNode(TreeElement *root, int key)
 	return findNode(root->leftChild, key);
 }
 
-TreeElement* findNearestNode(TreeElement *root, int key)
+TreeElement* findNearestNode(TreeElement *root, const string key)
 {
 	if (!root)
 	{
@@ -164,7 +164,7 @@ TreeElement* findNearestNode(TreeElement *root, int key)
 	return root;
 }
 
-TwoTrees split(SplayTree *tree, int key)
+TwoTrees split(SplayTree *tree, const string key)
 {
 	TreeElement *root = tree->root;
 	if (!root)
@@ -194,7 +194,7 @@ TwoTrees split(SplayTree *tree, int key)
 	}
 }
 
-void insert(SplayTree *tree, int key, string value)
+void insert(SplayTree *tree, const string key, const string value)
 {
 	auto twoTrees = split(tree, key);
 	TreeElement *root = new TreeElement{ twoTrees.node1, twoTrees.node2, nullptr, key, value };
@@ -204,12 +204,12 @@ void insert(SplayTree *tree, int key, string value)
 	tree->root = root;
 }
 
-void changeValue(SplayTree *tree, int key, string value)
+void changeValue(SplayTree *tree, const string key, const string value)
 {
 	insert(tree, key, value);
 }
 
-string getValue(SplayTree *tree, int key)
+string getValue(SplayTree *tree, const string key)
 {
 	auto node = findNode(tree->root, key);
 	if (node)
@@ -220,7 +220,7 @@ string getValue(SplayTree *tree, int key)
 	return "";
 }
 
-bool isHere(SplayTree *tree, int key)
+bool isHere(SplayTree *tree, const string key)
 {
 	auto node = findNode(tree->root, key);
 	if (node)
@@ -247,7 +247,7 @@ TreeElement* mergeTree(TreeElement *left, TreeElement *right)
 	return right;
 }
 
-void remove(SplayTree *tree, int key)
+void remove(SplayTree *tree, const string key)
 {
 	TreeElement *root = tree->root;
 	root = findNode(root, key);
@@ -255,6 +255,7 @@ void remove(SplayTree *tree, int key)
 	{
 		return;
 	}
+	root = findNearestNode(root, key);
 	setParent(root->leftChild, nullptr);
 	setParent(root->rightChild, nullptr);
 	tree->root = mergeTree(root->leftChild, root->rightChild);
