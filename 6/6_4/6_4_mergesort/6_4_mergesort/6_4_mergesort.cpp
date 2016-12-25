@@ -1,55 +1,33 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "simplelist.h"
 
 using namespace std;
 
-struct Contact
-{
-	string name = "";
-	string phone = "";
-};
+typedef PhoneNumbers Contact;
 
-struct ListElement
+int length(List *list)
 {
-	Contact value;
-	ListElement *next;
-};
-
-void deleteList(ListElement *&head)
-{
-	while (head)
-	{
-		auto oldHead = head;
-		head = head->next;
-		delete oldHead;
-	}
-}
-
-int length(ListElement *list)
-{
-	if (!list)
+	ListElement *head = getHead(list);
+	if (!head)
 	{
 		return 0;
 	}
 	int i = 0;
-	while (list)
+	while (head)
 	{
 		++i;
-		list = list->next;
+		head = next(head);
 	}
 	return i;
 }
 
-void addToHead(ListElement *&head, Contact value)
-{
-	auto newElement = new ListElement{ value, head };
-	head = newElement;
-}
+//replace addtohead to push
 
-ListElement* getDataFromFile()
+List* getDataFromFile()
 {
-	ListElement *head = nullptr;
+	List *list = createList();
 	ifstream file("file.txt");
 	if (!file.is_open())
 	{
@@ -69,77 +47,85 @@ ListElement* getDataFromFile()
 		}
 		getline(file, phone);
 		contact.phone = phone;
-		addToHead(head, contact);
+		push(list, contact);
 		if (file.eof())
 		{
 			break;
 		}
 	}
 	file.close();
-	return head;
+	return list;
 }
 
-void print(ListElement *head)
+void printContacts(List *list)
 {
 	cout << "===" << endl;
+	ListElement *head = getHead(list);
 	while (head)
 	{
-		cout << head->value.name << " " << head->value.phone << endl;
-		head = head->next;
+		string name = getValue(head).name;
+		string phone = getValue(head).phone;
+		cout << name << " " << phone << endl;
+		head = next(head);
 	}
 	cout << "===" << endl;
 }
 
-void print(ListElement *head, bool key)
+void printContacts(List *list, bool key)
 {
 	if (!key)
 	{
-		print(head);
+		printContacts(list);
 	}
 	else
 	{
 		cout << "===" << endl;
+		ListElement *head = getHead(list);
 		while (head)
 		{
-			cout << head->value.phone << " " << head->value.name << endl;
-			head = head->next;
+			string phone = getValue(head).phone;
+			string name = getValue(head).name;
+			cout << phone << " " << name << endl;
+			head = next(head);
 		}
 		cout << "===" << endl;
 	}
 }
 
-ListElement* merge(ListElement *&list1, ListElement *&list2, bool key)
+List* merge(List *&list1, List *&list2, bool key)
 {
-	ListElement *list = nullptr;
+	List *list = createList();
+	ListElement *listElement1 = getHead(list1);
+	ListElement *listElement2 = getHead(list2);
 	if (key)
 	{
-		while (list1 || list2)
+		while (listElement1 || listElement2)
 		{
-			while (list1 && list2 && list1->value.name < list2->value.name || list1 && !list2)
+			while (listElement1 && listElement2 && getValue(listElement1).name < getValue(listElement2).name || listElement1 && !listElement2)
 			{
-				addToHead(list, list1->value);
-				list1 = list1->next;
+				push(list, getValue(listElement1));
+				listElement1 = next(listElement1);
 			}
-			while (list1 && list2 && list1->value.name >= list2->value.name || list2 && !list1)
+			while (listElement1 && listElement2 && getValue(listElement1).name >= getValue(listElement2).name || listElement2 && !listElement1)
 			{
-				addToHead(list, list2->value);
-				list2 = list2->next;
+				push(list, getValue(listElement2));
+				listElement2 = next(listElement2);
 			}
 		}
 	}
 	else
 	{
-		while (list1 || list2)
+		while (listElement1 || listElement2)
 		{
-			while (list1 && list2 && list1->value.phone < list2->value.phone || list1 && !list2)
+			while (listElement1 && listElement2 && getValue(listElement1).phone < getValue(listElement2).phone || listElement1 && !listElement2)
 			{
-				addToHead(list, list1->value);
-				list1 = list1->next;
+				push(list, getValue(listElement1));
+				listElement1 = next(listElement1);
 			}
-			while (list1 && list2 && list1->value.phone >= list2->value.phone || list2 && !list1)
+			while (listElement1 && listElement2 && getValue(listElement1).phone >= getValue(listElement2).phone || listElement2 && !listElement1)
 			{
-				addToHead(list, list2->value);
-				list2 = list2->next;
+				push(list, getValue(listElement2));
+				listElement2 = next(listElement2);
 			}
 		}
 	}
@@ -148,13 +134,14 @@ ListElement* merge(ListElement *&list1, ListElement *&list2, bool key)
 	return list;
 }
 
-ListElement* copyListReversed(ListElement *list)
+List* copyListReversed(List *list)
 {
-	ListElement *tempList = nullptr;
-	while (list)
+	List *tempList = createList();
+	ListElement *head = getHead(list);
+	while (head)
 	{
-		addToHead(tempList, list->value);
-		list = list->next;
+		push(tempList, getValue(head));
+		head = next(head);
 	}
 	return tempList;
 }
@@ -168,86 +155,88 @@ ListElement *findHalf(ListElement *left, int size)
 	int i = 1;
 	while (i != (size + 1) / 2)
 	{
-		left = left->next;
+		left = next(left);
 		++i;
 	}
 	return left;
 }
 
-ListElement* mergesort(ListElement *&list, bool key)
+List* mergesort(List *&list, bool key)
 {
-	if (!list)
+	ListElement *head = getHead(list);
+	if (!head)
 	{
 		return nullptr;
 	}
-	if (!list->next)
+	if (!next(head))
 	{
 		return list;
 	}
-	if (!list->next->next)
+	if (!next(next(head)))
 	{
 		if (key)
 		{
-			if (list->value.name > list->next->value.name)
+			if (getValue(head).name > getValue(next(head)).name)
 			{
-				swap(list->value, list->next->value);
+				swapValues(head, next(head));
 			}
 		}
 		else
 		{
 			
-			if (list->value.phone > list->next->value.phone)
+			if (getValue(head).phone > getValue(next(head)).phone)
 			{
-				swap(list->value, list->next->value);
+				swapValues(head, next(head));
 			}
 		}
 		return list;
 	}
 	int size = length(list);
-	auto edge = findHalf(list, size);
-	ListElement *list1 = nullptr;
-	ListElement *list2 = nullptr;
-	while (list != edge->next)
+	ListElement *edge = findHalf(head, size);
+	List *list1 = createList();
+	List *list2 = createList();
+	while (head != next(edge))
 	{
-		addToHead(list1, list->value);
-		list = list->next;
+		push(list1, getValue(head));
+		head = next(head);
 	}
-	while (list)
+	while (head)
 	{
-		addToHead(list2, list->value);
-		list = list->next;
+		push(list2, getValue(head));
+		head = next(head);
 	}
 	mergesort(list1, key);
 	mergesort(list2, key);
-	auto newList = merge(list1, list2, key);
+	List *newList = merge(list1, list2, key);
 	deleteList(list);
 	list = copyListReversed(newList);
 	deleteList(newList);
 	return list;
 }
 
-bool isSorted(ListElement *list, bool key)
+bool isSorted(List *list, bool key)
 {
+	ListElement *head = getHead(list);
 	if (key)
 	{
-		while (list && list->next)
+		while (head && next(head))
 		{
-			if (list->next->value.name < list->value.name)
+			if (getValue(next(head)).name < getValue(head).name)
 			{
 				return false;
 			}
-			list = list->next;
+			head = next(head);
 		}
 	}
 	else
 	{
-		while (list && list->next)
+		while (head && next(head))
 		{
-			if (list->next->value.phone < list->value.phone)
+			if (getValue(next(head)).phone < getValue(head).phone)
 			{
 				return false;
 			}
-			list = list->next;
+			head = next(head);
 		}
 	}
 	return true;
@@ -260,7 +249,8 @@ bool test1()
 	cout << "IsSorted by phone " << isSorted(list, 0) << endl;
 	mergesort(list, 1);
 	cout << "IsSorted by name " << isSorted(list, 1) << endl;
-	bool b = list->value.name == "alice" && list->next->value.name == "egor" && list->next->next->value.name == "max";
+	ListElement *head = getHead(list);
+	bool b = getValue(head).name == "alice" && getValue(next(head)).name == "egor" && getValue(next(next(head))).name == "max";
 	deleteList(list);
 	return b;
 }
@@ -268,13 +258,13 @@ bool test1()
 int main()
 {
 	cout << test1() << endl;
-	auto phoneList = getDataFromFile();
+	List* phoneList = getDataFromFile();
 	cout << "Type 0 if you want to sort by phone, 1 - by name" << endl;
 	bool key = false;
 	cin >> key;
-	print(phoneList);
+	printContacts(phoneList);
 	mergesort(phoneList, key);
-	print(phoneList);
+	printContacts(phoneList);
 	deleteList(phoneList);
 	return 0;
 }
