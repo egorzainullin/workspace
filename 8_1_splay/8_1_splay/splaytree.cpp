@@ -138,10 +138,7 @@ TreeElement* findNode(TreeElement *root, int key)
 	{
 		return findNode(root->rightChild, key);
 	}
-	else
-	{
-		return findNode(root->leftChild, key);
-	}
+	return findNode(root->leftChild, key);
 }
 
 TreeElement* findNearestNode(TreeElement *root, int key)
@@ -220,7 +217,7 @@ string getValue(SplayTree *tree, int key)
 		insert(tree, key, node->value);
 		return node->value;
 	}
-	else return "";
+	return "";
 }
 
 bool isHere(SplayTree *tree, int key)
