@@ -1,142 +1,67 @@
 #include <iostream>
 #include <fstream>
+#include "graphqueue.h"
 
 using namespace std;
 
-struct Value
-{
-	int weight;
-	int node1;
-	int node2;
-};
-
-struct ListElement
-{
-	Value value;
-	ListElement *next;
-};
-
-struct Queue
-{
-	ListElement *head;
-	ListElement *tail;
-};
-
-Queue* createQueue()
-{
-	return new Queue{ nullptr, nullptr };
-}
-
-Value dequeue(Queue *queue)
-{
-	if (!queue || !queue->head)
-	{
-		return{ 0, 0, 0 };
-	}
-	auto oldElement = queue->head;
-	auto oldValue = queue->head->value;
-	if (queue->head == queue->tail)
-	{
-		auto head = queue->head;
-		delete head;
-		queue->head = nullptr;
-		queue->tail = nullptr;
-		return oldValue;
-	}
-	queue->head = queue->head->next;
-	delete oldElement;
-	return oldValue;
-}
-
-void enequeue(Queue *queue, Value value)
-{
-	if (!queue->head)
-	{
-		auto newElement = new ListElement{ value, nullptr };
-		queue->head = newElement;
-		queue->tail = newElement;
-		return;
-	}
-	auto newElement = new ListElement{ value, nullptr };
-	queue->tail->next = newElement;
-	queue->tail = newElement;
-}
-
-void addToHead(Queue *queue, Value value)
-{
-	if (!queue->head)
-	{
-		auto newElement = new ListElement{ value, nullptr };
-		queue->head = newElement;
-		queue->tail = newElement;
-		return;
-	}
-	auto newElement = new ListElement{ value, queue->head };
-	queue->head = newElement;
-}
-
-void addAndSort(Queue *queue, Value value)
-{
-	addToHead(queue, value);
-	auto iterator = queue->head;
-	while (iterator->next && iterator->value.weight > iterator->next->value.weight)
-	{
-		swap(iterator->value, iterator->next->value);
-		iterator = iterator->next;
-	}
-}
-
-void deleteQueue(Queue *&queue)
-{
-	while (queue->head)
-	{
-		dequeue(queue);
-	}
-	delete queue;
-	queue = nullptr;
-}
-
-void print(Queue *queue)
-{
-	auto head = queue->head;
-	while (head)
-	{
-		cout << head->value.weight << " ";
-		head = head->next;
-	}
-	cout << endl;
-}
-
-void printWithNode(Queue *queue)
-{
-	auto head = queue->head;
-	while (head)
-	{
-		cout << head->value.node1 << " ";
-		head = head->next;
-	}
-	cout << endl;
-}
-
-void printWithPath(Queue *queue)
-{
-	cout << "===" << endl;
-	auto head = queue->head;
-	while (head)
-	{
-		cout << head->value.node1 << " " << head->value.node2 << " (" << head->value.weight << ")";
-		cout << endl;
-		head = head->next;
-	}
-	cout << endl;
-}
 
 void merge(Queue *queue1, Queue *queue2)
 {
-	while (queue2->head)
+	while (getHead(queue2))
 	{
 		addAndSort(queue1, dequeue(queue2));
 	}
+}
+
+void searchingForCitiesOrderAlgorithm(int n, int k, int *cities, bool *used, Queue **nodeQueue, Queue **citiesQueue)
+{
+	int countNumber = n - k;
+	for (int i = 1; i <= n; ++i)
+	{
+		for (int j = 0; j < k; ++j)
+		{
+			if (i == cities[j])
+			{
+				used[i] = true;
+			}
+		}
+	}
+	int count = -1;
+	while (countNumber > 0)
+	{
+		++count;
+		count = count % k;
+		int city = cities[count];
+		if (getHead(nodeQueue[city]))
+		{
+			auto value1 = dequeue(nodeQueue[city]);
+			int i = value1.node1;
+			if (!used[i])
+			{
+				--countNumber;
+				addAndSort(citiesQueue[count], value1);
+				used[i] = true;
+				merge(nodeQueue[city], nodeQueue[i]);
+			}
+		}
+	}
+}
+
+void ouputCities(Queue **citiesQueue, int k)
+{
+	ofstream output("out.txt");
+	for (int i = 0; i < k; ++i)
+	{
+		while (getHead(citiesQueue[i]))
+		{
+			auto node1 = dequeue(citiesQueue[i]).node1;
+			output << node1 << " ";
+			cout << node1 << " ";
+		}
+		output << endl;
+		cout << endl;
+	}
+	output.close();
 }
 
 void findCountries()
@@ -169,7 +94,6 @@ void findCountries()
 	}
 	int k = 0;
 	file >> k;
-	int countNumber = n - k;
 	auto cities = new int[k] {0};
 	//create cities queue
 	auto citiesQueue = new Queue*[k] { nullptr };
@@ -183,50 +107,11 @@ void findCountries()
 		file >> l;
 		cities[i] = l;
 	}
-	for (int i = 1; i <= n; ++i)
-	{
-		for (int j = 0; j < k; ++j)
-		{
-			if (i == cities[j])
-			{
-				used[i] = true;
-			}
-		}
-	}
 	file.close();
-	int count = -1;
-	while (countNumber > 0)
-	{
-		++count;
-		count = count % k;
-		int city = cities[count];
-		if (nodeQueue[city]->head)
-		{
-			auto value1 = dequeue(nodeQueue[city]);
-			int i = value1.node1;
-			if (!used[i])
-			{
-				--countNumber;
-				addAndSort(citiesQueue[count], value1);
-				used[i] = true;
-				merge(nodeQueue[city], nodeQueue[i]);
-			}
-		}
-	}
+	//running algorithm
+	searchingForCitiesOrderAlgorithm(n, k, cities, used, nodeQueue, citiesQueue);
 	//output in file out.txt
-	ofstream output("out.txt");
-	for (int i = 0; i < k; ++i)
-	{
-		while (citiesQueue[i]->head)
-		{
-			auto node1 = dequeue(citiesQueue[i]).node1;
-			output << node1 << " ";
-			cout << node1 << " ";
-		}
-		output << endl;
-		cout << endl;
-	}
-	output.close();
+	ouputCities(citiesQueue, k);
 	//delete something
 	delete[] used;
 	delete[] cities;
