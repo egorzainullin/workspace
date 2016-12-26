@@ -124,7 +124,7 @@ void splay(TreeElement *node)
 	}
 }
 
-TreeElement* findNode(TreeElement *root, const string key)
+TreeElement* findNode(TreeElement *root, const string &key)
 {
 	if (!root)
 	{
@@ -141,7 +141,7 @@ TreeElement* findNode(TreeElement *root, const string key)
 	return findNode(root->leftChild, key);
 }
 
-TreeElement* findNearestNode(TreeElement *root, const string key)
+TreeElement* findNearestNode(TreeElement *root, const string &key)
 {
 	if (!root)
 	{
@@ -164,7 +164,7 @@ TreeElement* findNearestNode(TreeElement *root, const string key)
 	return root;
 }
 
-TwoTrees split(SplayTree *tree, const string key)
+TwoTrees split(SplayTree *tree, const string &key)
 {
 	TreeElement *root = tree->root;
 	if (!root)
@@ -194,7 +194,7 @@ TwoTrees split(SplayTree *tree, const string key)
 	}
 }
 
-void insert(SplayTree *tree, const string key, const string value)
+void insert(SplayTree *tree, const string &key, const string &value)
 {
 	auto twoTrees = split(tree, key);
 	TreeElement *root = new TreeElement{ twoTrees.node1, twoTrees.node2, nullptr, key, value };
@@ -204,12 +204,12 @@ void insert(SplayTree *tree, const string key, const string value)
 	tree->root = root;
 }
 
-void changeValue(SplayTree *tree, const string key, const string value)
+void changeValue(SplayTree *tree, const string &key, const string &value)
 {
 	insert(tree, key, value);
 }
 
-string getValue(SplayTree *tree, const string key)
+string getValue(SplayTree *tree, const string &key)
 {
 	auto node = findNode(tree->root, key);
 	if (node)
@@ -220,7 +220,7 @@ string getValue(SplayTree *tree, const string key)
 	return "";
 }
 
-bool isHere(SplayTree *tree, const string key)
+bool isHere(SplayTree *tree, const string &key)
 {
 	auto node = findNode(tree->root, key);
 	if (node)
@@ -247,7 +247,7 @@ TreeElement* mergeTree(TreeElement *left, TreeElement *right)
 	return right;
 }
 
-void remove(SplayTree *tree, const string key)
+void remove(SplayTree *tree, const string &key)
 {
 	TreeElement *root = tree->root;
 	root = findNode(root, key);

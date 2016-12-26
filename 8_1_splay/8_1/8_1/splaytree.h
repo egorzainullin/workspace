@@ -11,19 +11,19 @@ SplayTree* createSplay();
 void deleteTree(SplayTree *&tree);
 
 //insert key or changes value
-void insert(SplayTree *tree, const string key, const string value);
+void insert(SplayTree *tree, const string &key, const string &value);
 
 //changes value
-void changeValue(SplayTree *tree, const string key, const string value);
+void changeValue(SplayTree *tree, const string &key, const string &value);
 
 //gets value by key
-string getValue(SplayTree *tree, const string key);
+string getValue(SplayTree *tree, const string &key);
 
 //check for existance
-bool isHere(SplayTree *tree, const string key);
+bool isHere(SplayTree *tree, const string &key);
 
 //removes value by key
-void remove(SplayTree *tree, const string key);
+void remove(SplayTree *tree, const string &key);
 
 //print in preorder form
 void preorder(SplayTree *tree);
