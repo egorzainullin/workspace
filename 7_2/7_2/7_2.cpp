@@ -1,17 +1,11 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include "ariphmetictree.h"
 
 using namespace std;
 
-struct TreeElement
-{
-	string value;
-	TreeElement *leftChild;
-	TreeElement *rightChild;
-};
-
-int toInt(const string str)
+int toInt(const string &str)
 {
 	int length = static_cast<int>(str.size());
 	int sum = 0;
@@ -22,12 +16,15 @@ int toInt(const string str)
 	return sum;
 }
 
-TreeElement* createTree(const string str)
+Tree* createTree(const string &str)
 {
 	int length = str.size();
+	auto tree = createTree();
 	if (str[0] != '(')
 	{
-		return new TreeElement{ str, nullptr, nullptr };
+		auto root = createTreeElement(str);
+		setRoot(tree, root);
+		return tree;
 	}
 	string op = "";
 	op += str[1];
@@ -70,52 +67,52 @@ TreeElement* createTree(const string str)
 			rightOperand += str[j];
 		}
 	}
-	return new TreeElement{ op, createTree(leftOperand), createTree(rightOperand) };
+	auto root = createTreeElement(op);
+	setLeftChild(root, getRoot(createTree(leftOperand)));
+	setRightChild(root, getRoot(createTree(leftOperand)));
+	setRoot(tree, root);
+	return tree;
 }
 
 int calculate(TreeElement *root)
 {
-	if (root->value == "+")
+	if (getValue(root) == "+")
 	{
-		return calculate(root->leftChild) + calculate(root->rightChild);
+		return calculate(getLeftChild(root)) + calculate(getRightChild(root));
 	}
-	if (root->value == "-")
+	if (getValue(root) == "-")
 	{
-		return calculate(root->leftChild) - calculate(root->rightChild);
+		return calculate(getLeftChild(root)) - calculate(getRightChild(root));
 	}
-	if (root->value == "*")
+	if (getValue(root) == "*")
 	{
-		return calculate(root->leftChild) * calculate(root->rightChild);
+		return calculate(getLeftChild(root)) * calculate(getRightChild(root));
 	}
-	if (root->value == "/")
+	if (getValue(root) == "/")
 	{
-		return calculate(root->leftChild) / calculate(root->rightChild);
+		return calculate(getLeftChild(root)) / calculate(getRightChild(root));
 	}
-	return toInt(root->value);
+	return toInt(getValue(root));
 }
 
-void deleteTree(TreeElement *&root)
+int calculate(Tree *tree)
 {
-	if (root)
-	{
-		deleteTree(root->leftChild);
-		deleteTree(root->rightChild);
-		delete root;
-	}
+	return calculate(getRoot(tree));
 }
+
 
 void preorder(TreeElement *root)
 {
 	if (root)
 	{
-		bool isOperator = root->value == "+" || root->value == "-" || root->value == "*" || root->value == "/";
+		bool isOperator = getValue(root) == "+" || getValue(root) == "-" || getValue(root) == "*" || getValue(root) == "/";
 		if (isOperator)
 		{
 			cout << "(";
 		}
-		cout << root->value << " ";
-		preorder(root->leftChild);
-		preorder(root->rightChild);
+		cout << getValue(root) << " ";
+		preorder(getLeftChild(root));
+		preorder(getRightChild(root));
 		if (isOperator)
 		{
 			cout << ") ";
@@ -123,13 +120,18 @@ void preorder(TreeElement *root)
 	}
 }
 
-void print(TreeElement *tree)
+void preorder(Tree *tree)
+{
+	preorder(getRoot(tree));
+}
+
+void print(Tree *tree)
 {
 	preorder(tree);
 	cout << endl;
 }
 
-TreeElement *createTreeFromFile()
+Tree *createTreeFromFile()
 {
 	ifstream file("file.txt");
 	if (!file.is_open())

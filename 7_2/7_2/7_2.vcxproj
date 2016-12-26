@@ -150,11 +150,13 @@
     <Text Include="file.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ariphmetictree.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="7_2.cpp" />
+    <ClCompile Include="ariphmetictree.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
