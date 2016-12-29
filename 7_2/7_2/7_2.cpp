@@ -69,7 +69,7 @@ Tree* createTree(const string &str)
 	}
 	auto root = createTreeElement(op);
 	setLeftChild(root, getRoot(createTree(leftOperand)));
-	setRightChild(root, getRoot(createTree(leftOperand)));
+	setRightChild(root, getRoot(createTree(rightOperand)));
 	setRoot(tree, root);
 	return tree;
 }
