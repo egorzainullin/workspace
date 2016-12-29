@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include "simplelist.h"
-#include "hashtable.h";
+#include "hashtable.h"
 
 using namespace std;
 
