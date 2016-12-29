@@ -32,22 +32,28 @@ void searchingForCitiesOrderAlgorithm(int n, int k, int *cities, bool *used, Que
 		++count;
 		count = count % k;
 		int city = cities[count];
-		if (getHead(nodeQueue[city]))
+		bool foundUsedCity = true;
+		while (foundUsedCity && getHead(nodeQueue[city]))
 		{
 			auto value1 = dequeue(nodeQueue[city]);
 			int i = value1.node1;
 			if (!used[i])
 			{
+				foundUsedCity = false;
 				--countNumber;
 				addAndSort(citiesQueue[count], value1);
 				used[i] = true;
 				merge(nodeQueue[city], nodeQueue[i]);
 			}
+			else
+			{
+				foundUsedCity = true;
+			}
 		}
 	}
 }
 
-void ouputCities(Queue **citiesQueue, int k)
+void outputCities(Queue **citiesQueue, int k)
 {
 	ofstream output("out.txt");
 	for (int i = 0; i < k; ++i)
@@ -111,7 +117,7 @@ void findCountries()
 	//running algorithm
 	searchingForCitiesOrderAlgorithm(n, k, cities, used, nodeQueue, citiesQueue);
 	//output in file out.txt
-	ouputCities(citiesQueue, k);
+	outputCities(citiesQueue, k);
 	//delete something
 	delete[] used;
 	delete[] cities;
