@@ -11,34 +11,17 @@ int hashFunction(const string &str)
 	int hash = 0;
 	for (auto i = 0; i < length; ++i)
 	{
-		hash = hash + static_cast<int>(str[i]);
+		hash += static_cast<int>(str[i]);
 	}
 	return hash;
 }
 
-bool isIdentical(const string &str1, const string &str2)
+bool isIdentical(const string &str, int number, const string &comparingString)
 {
-	if (str1.size() != str2.size())
-	{
-		return false;
-	}
-	int size = str1.size();
-	for (auto i = 0; i < size; ++i)
-	{
-		if (str1[i] != str2[i])
-		{
-			return false;
-		}
-	}
-	return true;
-}
-
-bool isIdentical(const string &str, int number, const string &compapringString)
-{
-	int size = compapringString.size();
+	int size = comparingString.size();
 	for (int i = 0; i < size; ++i)
 	{
-		if (str[number + i] != compapringString[i])
+		if (str[number + i] != comparingString[i])
 		{
 			return false;
 		}
@@ -64,7 +47,7 @@ int searchForString(const string &str, const string &example)
 	int currentHash = hashFunction(substr);
 	if (currentHash == comparingHash)
 	{
-		if (isIdentical(substr, example))
+		if (substr == example)
 		{
 			++numberOfMatches;
 			cout << "0" << endl;
@@ -87,14 +70,13 @@ int searchForString(const string &str, const string &example)
 
 bool test1()
 {
-	return searchForString("abcdefgaabaaaab", "ab") == 3;
+	cout << "abcdefgaabaaaab" << " aabii" << endl;
+	return searchForString("abcdefgaabaaaab", "aabii") == 3;
 }
 
 int main()
 {
 	cout << "===" << endl << test1() << endl;
-	cout << "===" << endl;
-	searchForString("abaab", "ab");
     return 0;
 }
 
