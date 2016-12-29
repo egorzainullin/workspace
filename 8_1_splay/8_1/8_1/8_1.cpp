@@ -14,6 +14,9 @@ bool test1()
 	insert(tree, "what", "123");
 	insert(tree, "free", "651");
 	remove(tree, "max");
+	remove(tree, "egor");
+	remove(tree, "what");
+	remove(tree, "free");
 	preorder(tree);
 	bool b = isHere(tree, "egor") && !isHere(tree, "max");
 	deleteTree(tree);
