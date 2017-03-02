@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{CFFFDD08-D3AD-4D09-A868-7F7BEFF408FF}</ProjectGuid>
+    <ProjectGuid>{AE8D2217-98D5-4E64-A35B-487F95D1512D}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>My9_1</RootNamespace>
+    <RootNamespace>My12_1_hash_algoritm</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -146,17 +146,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="file.txt" />
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="9_1.cpp" />
-    <ClCompile Include="hashtable.cpp" />
-    <ClCompile Include="simplelist.cpp" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="hashtable.h" />
-    <ClInclude Include="simplelist.h" />
+    <ClCompile Include="12_1_hash_algoritm.cpp" />
+    <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
