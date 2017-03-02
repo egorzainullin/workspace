@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{08E9E658-3B66-48EB-A4E3-DFB572DB2A5A}</ProjectGuid>
+    <ProjectGuid>{F6DE0BA6-F9DF-4D1B-96DE-43C5D6979DDA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>My13_1analysis1</RootNamespace>
+    <RootNamespace>My6_4_mergesort</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -146,11 +146,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="binarytree.cpp" />
-    <ClCompile Include="Source.cpp" />
+    <Text Include="file.txt" />
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="binarytree.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="6_4_mergesort.cpp" />
+    <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
