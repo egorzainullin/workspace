@@ -32,11 +32,11 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="openclosev2.cpp">
+    <ClCompile Include="postfixform.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="simplestack.cpp">
-      <Filter>Файлы ресурсов</Filter>
+      <Filter>Файлы исходного кода</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

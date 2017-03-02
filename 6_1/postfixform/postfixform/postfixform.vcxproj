@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B2B5AF13-8B52-482F-B0C9-029725726B30}</ProjectGuid>
+    <ProjectGuid>{E2BDF83E-F094-4367-8805-E16AA9D26D56}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>openclosev2</RootNamespace>
+    <RootNamespace>postfixform</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -154,7 +154,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="openclosev2.cpp" />
+    <ClCompile Include="postfixform.cpp" />
     <ClCompile Include="simplestack.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
